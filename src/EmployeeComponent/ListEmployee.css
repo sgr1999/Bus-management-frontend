@@ -1,0 +1,15 @@
+.h2, h2 {
+    font-size: calc(1.325rem + .9vw);
+    margin-left: 285px;
+}
+
+.btn-danger {
+    color: #dc3545;
+    background-color: #fffdfd;
+    border-color: #dc3545;
+}
+
+.btn{
+    border: 0px solid #f8f9fa;
+    padding: 0%;
+}
