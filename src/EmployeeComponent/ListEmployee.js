@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import EmployeeService from "../Services/EmployeeService";
 import "./ListEmployee.css";
-import { Card } from "react-bootstrap";
+import { Card,Form,FormControl } from "react-bootstrap";
 import { Button } from "bootstrap";
 import NavBarEmployee from "./NavBarEmployee";
 
 
 
-const ListEmployee = (props) => {
+const ListEmployee = () => {
   const [employee, setEmployee] = useState([]);
+  const [query,setQuery]=useState("");
   
-
 
   useEffect(() => {
     getAllEmployee();
@@ -39,11 +39,20 @@ const ListEmployee = (props) => {
       });
   };
 
+  useEffect(()=>{
+    getData();
+  })
   const getData=(data)=>{
     console.log("comming in list ",data);
 
-    setEmployee(employee.filter((c)=>c.empId ==data));
+    // setEmployee(employee.filter((c)=>c.empId ==data));
     console.log(employee);
+  }
+
+
+  const onChangeHandler=(e)=>{
+    setQuery(e.target.value)
+    console.log(e.target.value);
   }
 
   return (
@@ -57,7 +66,28 @@ const ListEmployee = (props) => {
           </th>
         </tr>
       </thead>
+      <tr className="search-emp">
+        <th>
+
               <NavBarEmployee onSubmit={getData}/>
+        </th>
+        <th style={{background: "#212529",width: "100%",
+                    paddingRight: "30px",
+                    paddingLeft: "150px"}}>
+
+       
+        <Form className="d-flex">
+              <FormControl
+                type="search"
+                placeholder="Enter Id"
+                className="me-1"
+                aria-label="Search"
+                onChange={onChangeHandler}
+              />
+            </Form>
+        </th>
+      </tr>
+
 
       <Card>
         <table className="table table-bordered table-striped">
@@ -71,7 +101,12 @@ const ListEmployee = (props) => {
             <th>Action</th>
           </thead>
           <tbody>
-            {employee.map((employee) => (
+
+        
+
+            {employee.filter((emp)=>
+              emp.firstName.toLowerCase().includes(query)
+            ).map((employee) =>(
               <tr key={employee.empId}>
                 <td>{employee.empId}</td>
                 <td>{employee.firstName}</td>

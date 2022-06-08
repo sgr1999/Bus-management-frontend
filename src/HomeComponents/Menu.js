@@ -11,6 +11,7 @@ const Menu = () => {
            <ListGroupItem tag="a" herf="#!" action>Bus Details</ListGroupItem>
            <ListGroupItem tag="a" herf="#!" action>Bus Booking</ListGroupItem>
            <Link className='list-group-item list-group-item-action' tag="a" to="/employee-details" action>Employee Details</Link>
+           <Link className='list-group-item list-group-item-action' tag="a" to="/customer-details" action>Customer Details</Link>
  
         </ListGroup>
     </div>

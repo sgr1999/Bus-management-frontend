@@ -17,6 +17,7 @@ const NavBarEmployee = (props) => {
 
   const getValueSearch = (e) => {
     setName(e.target.value);
+    props.onSubmit(name);
     console.log("nav get serach", e.target.value);
   };
 
@@ -57,19 +58,6 @@ const NavBarEmployee = (props) => {
                 Link
               </Nav.Link>
             </Nav>
-            <Form className="d-flex" onChange={handleSubmit}>
-              <FormControl
-                type="search"
-                placeholder="Enter Id"
-                className="me-1"
-                aria-label="Search"
-                value={name}
-                onChange={getValueSearch}
-              />
-              <Button id="search" type="submit" variant="outline-success">
-                Search
-              </Button>
-            </Form>
           </Navbar.Collapse>
         </Container>
       </Navbar>

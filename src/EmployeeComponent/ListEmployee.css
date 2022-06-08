@@ -13,3 +13,8 @@
     border: 0px solid #f8f9fa;
     padding: 0%;
 }
+
+.errorMessage{
+    font-size: small;
+    color: #dc3545;
+}

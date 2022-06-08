@@ -24,6 +24,10 @@ export class EmployeeService{
     deleteEmployee(id){
         return axios.delete(`${base_url}/employee/deleteEmployee/${id}`)
     }
+
+    getUserName(email){
+        return axios.get(`${base_url}/employee/getUserName/${email}`)
+    }
   
 }
 
