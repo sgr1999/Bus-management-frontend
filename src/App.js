@@ -17,6 +17,9 @@ import NavBar from './HomeComponents/NavBar';
 function App() {
   return (
     <div>
+      <ToastContainer
+   
+/>
           <NavBar/>
           <ToastContainer/>
          <Home/>

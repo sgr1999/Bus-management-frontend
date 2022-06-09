@@ -1,11 +1,12 @@
 import React, { Fragment, useEffect, useState} from "react";
-import { ToastContainer } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import { FormGroup,Form, Input, Container, Button } from "reactstrap";
 import EmployeeService from "../Services/EmployeeService";
-import ListEmployee from "./ListEmployee";
 import useForm from "../Hooks/useForm";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
+toast.configure()
 
 const AddEmployee = () => {
 
@@ -20,7 +21,12 @@ const AddEmployee = () => {
     const {empId} = useParams();
     const navigate = useNavigate();
 
-    const {handleChange,values, errors,getPasswordValue} = useForm();
+    const formLogin=()=>{
+      console.log("Callback function when form is submitted!");
+      console.log("Form Values ", values);
+    }
+
+    const {handleChange,values, errors,getPasswordValue} = useForm(formLogin);
 
 
     const saveOrUpdateEmployee=(e)=>{
@@ -35,10 +41,14 @@ const AddEmployee = () => {
                 (response)=>{
                     console.log(response.data);
                     navigate("/employee-details")
-                    toast.success("updated successfully")
+                    toast.success("updated successfully",{
+                      position:toast.POSITION.TOP_CENTER
+                    })
                 }
             ).catch(error=>{
-                toast.error("something went wrong")
+                toast.error("something went wrong",{
+                  position:toast.POSITION.TOP_CENTER
+                })
                 console.log(error.response.data);
             })
         }
@@ -47,11 +57,15 @@ const AddEmployee = () => {
                 (response)=>{
                     console.log(response.data)
                     navigate("/employee-details")
-                    toast.success("employee added successfully")
+                    toast.success("employee added successfully",{
+                      position:toast.POSITION.TOP_CENTER
+                    })
                 }
             ).catch(error=>{
-                toast.error("something went wrong")
-                console.log(error.response.data)
+                toast.error("something went wrong",{
+                  position:toast.POSITION.TOP_CENTER
+                })
+                console.log(error.response.data);
             })
         }
 
@@ -76,8 +90,13 @@ const AddEmployee = () => {
         })
     },[])
    
+    const handleSubmit=()=>{
+      console.log("submit");
+    }
 
-
+    const handleSubmit1=()=>{
+      console.log("submit1");
+    }
 
   return (
     <div>
@@ -91,7 +110,7 @@ const AddEmployee = () => {
                       <div className="card shadow-2-strong card-registration" style={{border: "15px"}}>
                         <div className="card-body p-4 p-md-5">
                           <h3 className="mb-4 pb-2 pb-md-0 mb-md-5">Add Employee Details</h3>
-                          <form>
+                          <form onSubmit={handleSubmit}>
               
                             <div className="row">
                               <div className="col-md-6 mb-4">
@@ -228,7 +247,7 @@ const AddEmployee = () => {
                             </div>
               
                             <div className="mt-4">
-                              <input className="btn btn-primary btn-lg" type="submit" value="Submit" onClick={(e)=>saveOrUpdateEmployee(e)} />
+                              <input className="btn btn-primary btn-lg" type="submit" value="Submit" onClick={(e)=>saveOrUpdateEmployee(e)} onSubmit={handleSubmit1} />
                             </div>
               
                           </form>

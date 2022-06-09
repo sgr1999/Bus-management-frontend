@@ -3,7 +3,7 @@ import { omit } from "lodash";
 import "../EmployeeComponent/ListEmployee.css";
 import EmployeeService from "../Services/EmployeeService";
 
-const useForm = () => {
+const useForm = (callback) => {
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
   const [password,setPassword] = useState({});
@@ -44,6 +44,19 @@ const useForm = () => {
       [name]: val,
     });
   };
+
+  const handleSubmit=(event)=>{
+      if (event) event.preventDefault()
+      
+      if(Object.keys(errors).length === 0 && Object.keys(values).length !==0) {
+
+        callback();
+        alert("There is an Error!");
+      }
+      else{
+        alert("There is an Error!");
+      }
+  } 
 
   const validate = (event, name, values) => {
     switch (name) {
@@ -158,7 +171,7 @@ const useForm = () => {
     errors,
     handleChange,
     getPasswordValue,
-    
+    handleSubmit
   };
 };
 
