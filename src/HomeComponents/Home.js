@@ -9,7 +9,8 @@ import { Button } from "bootstrap";
 import { Card, Row, Col } from "reactstrap";
 import AddEmployee from "../EmployeeComponent/AddEmployee";
 import ListEmployee from "../EmployeeComponent/ListEmployee";
-import AddCustomer from "../CustomerComponent/AddCustomer";
+import ListCustomer from "../CustomerComponent/ListCustomer";
+import AddCustomer from "../CustomerComponent/AddCustomer"
 
 const Home = () => {
   return (
@@ -32,7 +33,8 @@ const Home = () => {
                 element={<AddEmployee />}
                 exact
               />
-              <Route path="customer-details" element={<AddCustomer />} expect />
+              <Route path="customer-details" element={<ListCustomer />} expect />
+              <Route path="add-customer" element={<AddCustomer/>} expect/>
             </Routes>
           </Col>
         </Row>

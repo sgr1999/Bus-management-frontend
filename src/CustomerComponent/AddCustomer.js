@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState,Fragment } from 'react'
 import AddEmployee from '../EmployeeComponent/AddEmployee'
+import { Container} from 'react-bootstrap';
+import ListCustomer from './ListCustomer';
+
 
 const AddCustomer = () => {
 
@@ -13,9 +16,17 @@ const AddCustomer = () => {
     const [password1,setPassword1]=useState('');
     const [gender, setGenger]= useState('');
     
+    const saveOrUpdateCustomer=(e)=>{
+
+      e.preventDefault();
+
+      console.log(e.target.value)
+    }
+
   return (
     <div>
-    <Container style={{background:"#b6b9b8"}}>
+    <Container style={{
+    background: "rgb(253, 249, 249)"}}>
 
      <Fragment>
      <div className="vh-100 gradient-custom">
@@ -110,11 +121,64 @@ const AddCustomer = () => {
                         </div>
           
                         <div className="row">
-                     
-                        </div>
+                            <div className="col-md-6 mb-4">
+            
+                              <h6 className="mb-2 pb-1">Gender: </h6>
+            
+                              <div className="form-check form-check-inline">
+                                <input
+                                  className="form-check-input"
+                                  type="radio"
+                                  name="gender"
+                                  id="femaleGender"
+                                  value="Female"
+                                />
+                                <label className="form-check-label" htmlFor="femaleGender">Female</label>
+                              </div>
+            
+                              <div className="form-check form-check-inline">
+                                <input
+                                  className="form-check-input"
+                                  type="radio"
+                                  name="gender"
+                                  id="maleGender"
+                                  value="Male"
+                                />
+                                <label className="form-check-label" htmlFor="maleGender">Male</label>
+                              </div>
+            
+                              <div className="form-check form-check-inline">
+                                <input
+                                  className="form-check-input"
+                                  name="gender"
+                                  type="radio"
+                                  id="otherGender"
+                                  value="Other"
+                                />
+                                <label className="form-check-label" htmlFor="otherGender">Other</label>
+                                
+                              </div>
+            
+                            </div>
+
+                            <div className="col-md-6">
+                                <div className="form-outline">
+                                  <input
+                                    name="age"
+                                    type="number"
+                                    id="age"
+                                    className="form-control form-control-lg"
+                                  />
+                                  <label className="form-label" htmlFor="age"
+                                    >Age</label
+                                  >
+      
+                                 </div>
+                              </div>
+                          </div>
           
                         <div className="mt-4 pt-2">
-                          <input className="btn btn-primary btn-lg" type="submit" value="Submit" onClick={(e)=>saveOrUpdateEmployee(e)} />
+                          <input className="btn btn-primary btn-lg" type="submit" value="Submit" onClick={(e)=>saveOrUpdateCustomer(e)} />
                         </div>
           
                       </form>
