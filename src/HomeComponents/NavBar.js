@@ -1,8 +1,10 @@
 import React from "react";
 import { Nav,NavDropdown,Navbar } from "react-bootstrap";
 import { Container } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 const NavBar = () => {
+  const amount = useSelector(state =>state.amount)
   return (
     <div>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -32,6 +34,8 @@ const NavBar = () => {
             </Nav>
           </Navbar.Collapse>
         </Container>
+
+        <button className="btn btn-primary">amount : {amount}</button>
       </Navbar>
     </div>
   );

@@ -43,7 +43,7 @@ const ListCustomer = () => {
       <thead>
         <tr>
           <th>
-            <h2 className="text-center">List Of Employee</h2>
+            <h2 className="text-center">List Of Customer</h2>
           </th>
         </tr>
       </thead>

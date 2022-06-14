@@ -13,6 +13,9 @@ import Home from './HomeComponents/Home';
 import {Row, Col } from "reactstrap";
 import Menu from './HomeComponents/Menu';
 import NavBar from './HomeComponents/NavBar';
+import First  from './TestComponent/First';
+import Second from './TestComponent/Second';
+import Shop from './TestComponent/Shop';
 
 function App() {
   return (
@@ -23,7 +26,11 @@ function App() {
           <NavBar/>
           <ToastContainer/>
          <Home/>
-          
+
+          {/* <Shop/>
+          <First/>
+          <Second/> */}
+
       
       
     </div>

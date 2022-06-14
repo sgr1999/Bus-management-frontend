@@ -1,7 +1,9 @@
 import React, { useState,Fragment } from 'react'
+import "../EmployeeComponent/ListEmployee.css";
 import AddEmployee from '../EmployeeComponent/AddEmployee'
 import { Container} from 'react-bootstrap';
 import ListCustomer from './ListCustomer';
+import useForm from '../Hooks/useForm';
 
 
 const AddCustomer = () => {
@@ -15,12 +17,21 @@ const AddCustomer = () => {
     const [password, setPassword]=useState('');
     const [password1,setPassword1]=useState('');
     const [gender, setGenger]= useState('');
+    const [age, setAge]= useState('');
+
+    const formLogin=()=>{
+
+    }
+
+    const {handleChange, values,errors}=useForm(formLogin);
     
     const saveOrUpdateCustomer=(e)=>{
 
       e.preventDefault();
+      const customer ={firstName,lastName,userName,password,gender,age};
 
       console.log(e.target.value)
+      console.log(customer)
     }
 
   return (
@@ -42,23 +53,37 @@ const AddCustomer = () => {
                           <div className="col-md-6 mb-4">
           
                             <div className="form-outline">
-                              <input type="text" id="firstName" className="form-control form-control-lg" 
+                              <input type="text" 
+                              name='firstName'
+                              id="firstName" className="form-control form-control-lg" 
                               
                               value={firstName}
-                              onChange={(e)=>setFirstName(e.target.value)}
+                              onChange={(e)=>{setFirstName(e.target.value);
+                                handleChange(e);
+                              }}
                               />
                               <label className="form-label" htmlFor="firstName">First Name</label>
+                              {
+                                errors.firstName && <p className='errorMessage'>{errors.firstName}</p>
+                              }
                             </div>
           
                           </div>
                           <div className="col-md-6 mb-4">
           
                             <div className="form-outline">
-                              <input type="text" id="lastName" className="form-control form-control-lg" 
+                              <input type="text" 
+                              name='lastName'
+                              id="lastName" className="form-control form-control-lg" 
                               value={lastName}
-                              onChange={(e)=>setLastName(e.target.value)}
+                              onChange={(e)=>{setLastName(e.target.value);
+                              handleChange(e)
+                              }}
                               />
                               <label className="form-label" htmlFor="lastName">Last Name</label>
+                              {
+                                errors.lastName && <p className='errorMessage'>{errors.lastName}</p>
+                              }
                             </div>
           
                           </div>
@@ -71,11 +96,16 @@ const AddCustomer = () => {
           
                             <div className="form-outline">
                               <input type="email" id="emailAddress" className="form-control form-control-lg" 
-                              
+                              name='userName'
                               value={userName}
-                              onChange={(e)=>setUserName(e.target.value)}
+                              onChange={(e)=>{setUserName(e.target.value);
+                              handleChange(e)
+                              }}
                               />
                               <label className="form-label" htmlFor="emailAddress">Email</label>
+                              {
+                                errors.userName && <p className='errorMessage'>{errors.userName}</p>
+                              }
                             </div>
           
                           </div>
@@ -83,11 +113,16 @@ const AddCustomer = () => {
           
                             <div className="form-outline">
                               <input type="tel" id="phoneNumber" className="form-control form-control-lg" 
-                              
+                              name='mobileNumber'
                               value={mobileNumber}
-                              onChange={(e)=>setMobileNumber(e.target.value)}
+                              onChange={(e)=>{setMobileNumber(e.target.value);
+                              handleChange(e)
+                              }}
                               />
                               <label className="form-label" htmlFor="phoneNumber">Phone Number</label>
+                              {
+                                errors.mobileNumber && <p className='errorMessage'>{errors.mobileNumber}</p>
+                              }
                             </div>
           
                           </div>
@@ -98,11 +133,16 @@ const AddCustomer = () => {
           
                             <div className="form-outline">
                               <input type="password" id="emailAddress" className="form-control form-control-lg" 
-                              
+                              name='password'
                               value={password}
-                              onChange={(e)=>setPassword(e.target.value)}
+                              onChange={(e)=>{setPassword(e.target.value);
+                              handleChange(e)
+                              }}
                               />
                               <label className="form-label" htmlFor="emailAddress">Password</label>
+                              {
+                                errors.password && <p className='errorMessage'>{errors.password}</p>
+                              }
                             </div>
           
                           </div>
@@ -110,11 +150,16 @@ const AddCustomer = () => {
           
                             <div className="form-outline">
                               <input type="password" id="phoneNumber" className="form-control form-control-lg" 
-                              
+                              name='password1'
                               value={password1}
-                              onChange={(e)=>setPassword1(e.target.value)}
+                              onChange={(e)=>{setPassword1(e.target.value);
+                              handleChange(e)
+                              }}
                               />
                               <label className="form-label" htmlFor="phoneNumber">Confirm Password</label>
+                              {
+                                errors.password1 && <p className='errorMessage'>{errors.password1}</p>
+                              }
                             </div>
           
                           </div>
@@ -132,6 +177,7 @@ const AddCustomer = () => {
                                   name="gender"
                                   id="femaleGender"
                                   value="Female"
+                                  onChange={(e)=>setAge(e.target.value)}
                                 />
                                 <label className="form-check-label" htmlFor="femaleGender">Female</label>
                               </div>
@@ -142,6 +188,7 @@ const AddCustomer = () => {
                                   type="radio"
                                   name="gender"
                                   id="maleGender"
+                                  onChange={(e)=>setAge(e.target.value)}
                                   value="Male"
                                 />
                                 <label className="form-check-label" htmlFor="maleGender">Male</label>
@@ -154,6 +201,7 @@ const AddCustomer = () => {
                                   type="radio"
                                   id="otherGender"
                                   value="Other"
+                                  onChange={(e)=>setAge(e.target.value)}
                                 />
                                 <label className="form-check-label" htmlFor="otherGender">Other</label>
                                 
@@ -166,6 +214,8 @@ const AddCustomer = () => {
                                   <input
                                     name="age"
                                     type="number"
+                                    value={age}
+                                    onChange={(e)=>setAge(e.target.value)}
                                     id="age"
                                     className="form-control form-control-lg"
                                   />

@@ -28,7 +28,6 @@ const AddEmployee = () => {
 
     const {handleChange,values, errors,getPasswordValue} = useForm(formLogin);
 
-
     const saveOrUpdateEmployee=(e)=>{
 
         e.preventDefault();
