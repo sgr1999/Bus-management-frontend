@@ -1,38 +1,111 @@
-import React, { useState,Fragment } from 'react'
+import React, { useState,Fragment, useEffect } from 'react'
 import "../EmployeeComponent/ListEmployee.css";
 import AddEmployee from '../EmployeeComponent/AddEmployee'
 import { Container} from 'react-bootstrap';
 import ListCustomer from './ListCustomer';
 import useForm from '../Hooks/useForm';
+import useFormCustomer from '../Hooks/useFormCustomer';
+import { useDispatch } from 'react-redux';
+import { findUserCustomer } from '../reduxState/action';
+import CustomerService from '../Services/CustomerService';
+import { toast } from 'react-toastify';
+import { useNavigate, useParams } from 'react-router-dom';
+
 
 
 const AddCustomer = () => {
 
     const [customer, setCustomer]=useState([]);
-
     const [firstName,setFirstName]=useState('');
     const [lastName, setLastName]=useState('');
     const [userName, setUserName]=useState('');
     const [mobileNumber,setMobileNumber]=useState('');
     const [password, setPassword]=useState('');
     const [password1,setPassword1]=useState('');
-    const [gender, setGenger]= useState('');
+    const [gender, setGender]= useState('');
     const [age, setAge]= useState('');
+    const [heading,setHeading]=useState('');
+    const navigate = useNavigate();
+
+    const {customerId} = useParams();
 
     const formLogin=()=>{
 
     }
 
-    const {handleChange, values,errors}=useForm(formLogin);
+    const {handleChange, values,errors,getPasswordValue}=useFormCustomer(formLogin);
+    const dispatch = useDispatch();
+
+    const checkCustomerUser=(e)=>{
+      dispatch(findUserCustomer(e.target.value))
+    }
+    
     
     const saveOrUpdateCustomer=(e)=>{
 
       e.preventDefault();
-      const customer ={firstName,lastName,userName,password,gender,age};
+      const customer ={firstName,lastName,mobileNumber,userName,password,gender,age};
 
-      console.log(e.target.value)
-      console.log(customer)
+      if (customerId) {
+       
+        CustomerService.updateCustomer(customer,customerId).then((response)=>{
+          toast.success("updated successfully!!",{
+            position:toast.POSITION.TOP_CENTER
+          })
+
+          navigate("/customer-details")
+        }).catch(error=>{
+          console.log(error.response.data);
+          toast.error("something went wrong",{
+            position:toast.POSITION.TOP_CENTER
+          })
+        })
+      }else{
+        
+        CustomerService.addCustomer(customer).then((response)=>{
+          console.log(customer);
+          toast.success("customer added successfully!!")
+          navigate("/customer-details")
+        },
+        (error)=>{
+          if (gender.length<=0) {
+            toast.error("select gender")
+            console.log("gender : ",customer.gender)
+            console.log(customer)
+          }
+          else if(age.length<=0){
+            toast.error("enter age")
+            console.log("age : ",customer.age)
+          }
+          else{
+            toast.error("something went wrong")
+            console.log(error.response.data)
+          }
+        })
+      }
     }
+
+    useEffect(()=>{
+      if (customerId) {
+        setHeading("Update")
+      }else{
+        setHeading("Add")
+      }
+
+      CustomerService.getCustomerById(customerId).then((response)=>{
+        setFirstName(response.data.firstName);
+        setLastName(response.data.lastName);
+        setMobileNumber(response.data.mobileNumber);
+        setUserName(response.data.userName);
+        setGender(response.data.gender);
+        setAge(response.data.age);
+        setPassword(response.data.password);
+        setPassword1(response.data.password);
+        console.log(response.data)
+      }).catch(error=>{
+        console.log(error.response.data);
+      })
+    },[])
 
   return (
     <div>
@@ -46,7 +119,8 @@ const AddCustomer = () => {
                 <div className="col-12 col-lg-3 col-xl-7">
                   <div className="card shadow-2-strong card-registration" style={{border: "15px"}}>
                     <div className="card-body p-4 p-md-5">
-                      <h3 className="mb-4 pb-2 pb-md-0 mb-md-5">Add Employee Details</h3>
+                      
+                      <h3 className="mb-4 pb-2 pb-md-0 mb-md-5">{heading} Customer Details</h3>
                       <form>
           
                         <div className="row">
@@ -99,7 +173,8 @@ const AddCustomer = () => {
                               name='userName'
                               value={userName}
                               onChange={(e)=>{setUserName(e.target.value);
-                              handleChange(e)
+                              handleChange(e);
+                              checkCustomerUser(e);
                               }}
                               />
                               <label className="form-label" htmlFor="emailAddress">Email</label>
@@ -136,7 +211,8 @@ const AddCustomer = () => {
                               name='password'
                               value={password}
                               onChange={(e)=>{setPassword(e.target.value);
-                              handleChange(e)
+                              handleChange(e);
+                              getPasswordValue(e)
                               }}
                               />
                               <label className="form-label" htmlFor="emailAddress">Password</label>
@@ -177,7 +253,7 @@ const AddCustomer = () => {
                                   name="gender"
                                   id="femaleGender"
                                   value="Female"
-                                  onChange={(e)=>setAge(e.target.value)}
+                                  onChange={(e)=>setGender(e.target.value)}
                                 />
                                 <label className="form-check-label" htmlFor="femaleGender">Female</label>
                               </div>
@@ -188,7 +264,7 @@ const AddCustomer = () => {
                                   type="radio"
                                   name="gender"
                                   id="maleGender"
-                                  onChange={(e)=>setAge(e.target.value)}
+                                  onChange={(e)=>setGender(e.target.value)}
                                   value="Male"
                                 />
                                 <label className="form-check-label" htmlFor="maleGender">Male</label>
@@ -201,7 +277,7 @@ const AddCustomer = () => {
                                   type="radio"
                                   id="otherGender"
                                   value="Other"
-                                  onChange={(e)=>setAge(e.target.value)}
+                                  onChange={(e)=>setGender(e.target.value)}
                                 />
                                 <label className="form-check-label" htmlFor="otherGender">Other</label>
                                 

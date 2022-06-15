@@ -6,22 +6,40 @@ import { Link } from 'react-router-dom'
 import { FormControl } from 'react-bootstrap'
 import NavBarCustomer from './NavBarCustomer'
 import CustomerService from '../Services/CustomerService'
+import { useDispatch } from 'react-redux'
+import { actionCreators } from '../state'
+import { getCustomerData } from '../reduxState/action'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 const ListCustomer = () => {
 
     const [customer, setCustomer] = useState([]);
     const [query, setQuery] = useState({});
 
+    const dispatch = useDispatch();
+
+    dispatch(getCustomerData(customer));
+
     useEffect(()=>{
         getCustomerAll();
     },[])
 
-    const deleteCustomer=()=>{
-
+    const deleteCustomer=(id)=>{
+      CustomerService.deleteCustomer(id).then((response)=>{
+        toast.success("customer deleted successfully!!",{
+          position:toast.POSITION.TOP_CENTER
+        })
+        getCustomerAll();
+      }).catch(error=>{
+        console.log(error.response.data)
+        toast.error("not deleted")
+      })
     }
 
-    const onChangeHandler=()=>{
-
+    const onChangeHandler=(e)=>{
+      setQuery(e.target.value);
+      console.log(e.target.value);
     }
 
     const getCustomerAll=()=>{
@@ -82,7 +100,9 @@ const ListCustomer = () => {
 
         
             {
-            customer.map(customer =>
+            customer.filter((e)=>
+            e.firstName.toLowerCase().includes(query)
+            ).map((customer) =>(
               <tr key={customer.customerId}>
                 <td>{customer.customerId}</td>
                 <td>{customer.firstName}</td>
@@ -127,7 +147,7 @@ const ListCustomer = () => {
                   </button>
                 </td>
               </tr>
-            )}
+            ))}
           </tbody>
         </table>
       </Card>

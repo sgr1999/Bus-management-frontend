@@ -2,17 +2,26 @@ import React, { useEffect, useState } from "react";
 import { omit } from "lodash";
 import "../EmployeeComponent/ListEmployee.css";
 import EmployeeService from "../Services/EmployeeService";
+import CustomerService from "../Services/CustomerService";
+import { useSelector } from "react-redux";
 
 const useForm = (callback) => {
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
   const [password,setPassword] = useState({});
   const [employee, setEmployee] = useState([]);
+  const [customer, setCustomer] = useState([]);
   const [emailValue, setEmailValue] = useState([]);
+
  
+  const userNameCustomer = useSelector((state)=>state.findUser);
+  const userLength = userNameCustomer.length;
+  console.log("out if user length : ",userLength)
+  console.log("out if user : ",userNameCustomer)
 
   useEffect(()=>{
     getAllEmployee();
+    getCustomerAll();
     console.log("employee : ",employee);
   },[])
 
@@ -25,6 +34,16 @@ const useForm = (callback) => {
       console.log(error.response.data);
     })
   };
+
+  const getCustomerAll=()=>{
+
+    CustomerService.getCustomerAll().then((response)=>{
+      console.log(response.data)
+      setCustomer(response.data)
+    }).catch(error=>{
+      console.log(error.response.data)
+    })
+  }
 
   const getPasswordValue =(event)=>{
     event.persist();
@@ -86,7 +105,8 @@ const useForm = (callback) => {
         break;
 
       case "userName":
-
+        console.log("in if user length : ",userLength)
+        console.log("in if user : ",userNameCustomer)
         if (
           !new RegExp(
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -97,27 +117,26 @@ const useForm = (callback) => {
             userName: "Enter a valid email address",
           });
         }
-        else if(employee.filter((e)=>e.userName==values).length>0){
+        else if(employee.filter((e)=>e.userName==values).length>0 && userNameCustomer.length==0){
           setErrors({
             ...errors,
             userName: "Already registred"
           });
         }
+        else if(customer.filter((e)=>e.userName==values).length>0){
+          setErrors({
+            ...errors,
+            userName: "Already registred"
+          })
+        }
         else {
           let newObj = omit(errors, "userName");
           setErrors(newObj);
         }
-
-        // if(employee.filter((e)=> e.userName==values)) {
-          
-        //   setErrors({
-        //     ...errors,
-        //     userName:"Already registred",
-        //   })
-        // }
+        break;
 
        
-        break;
+
 
         case "mobileNumber":
           if (values.length!=10) {

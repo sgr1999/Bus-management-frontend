@@ -35,6 +35,7 @@ const Home = () => {
               />
               <Route path="customer-details" element={<ListCustomer />} expect />
               <Route path="add-customer" element={<AddCustomer/>} expect/>
+              <Route path="update-customer/:customerId" element={<AddCustomer/>} expect />
             </Routes>
           </Col>
         </Row>

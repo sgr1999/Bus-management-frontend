@@ -25,11 +25,11 @@ export const passingValue = (value1)=>{
     };
 }
 
-export const passingValue1 = (value1)=>{
+export const getAllCustomerData = (amount)=>{
     return (dispatch)=>{    
         dispatch({
-            type:'value1',
-            payload:value1
+            type:'allCustomer',
+            payload:amount
         })
     };
 }

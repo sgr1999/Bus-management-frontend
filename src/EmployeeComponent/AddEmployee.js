@@ -5,6 +5,7 @@ import EmployeeService from "../Services/EmployeeService";
 import useForm from "../Hooks/useForm";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from "react-redux";
 
 toast.configure()
 
@@ -17,6 +18,9 @@ const AddEmployee = () => {
     const [password, setPassword]= useState('');
     const [password1, setPassword1]= useState('');
     const [employeeType, setEmployeeType]= useState('');
+
+    
+    
 
     const {empId} = useParams();
     const navigate = useNavigate();
@@ -71,9 +75,9 @@ const AddEmployee = () => {
     }
 
     useEffect(()=>{
+
         console.log(empId);
         EmployeeService.getEmployeeById(empId).then(
-
             
             (response)=>{
                 setFirstName(response.data.firstName);

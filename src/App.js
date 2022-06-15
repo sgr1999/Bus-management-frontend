@@ -27,12 +27,9 @@ function App() {
           <ToastContainer/>
          <Home/>
 
-          {/* <Shop/>
-          <First/>
+          {/* <Shop/> */}
+          {/* <First/>
           <Second/> */}
-
-      
-      
     </div>
   );
 }

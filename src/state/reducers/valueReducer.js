@@ -1,5 +1,5 @@
 const reducer = (state=0,action)=>{
-    if(action.type==='value'){
+    if(action.type==='getCustomer'){
         return action.payload
     }
     else{
